@@ -14,7 +14,7 @@ public class WalletJournalHandler extends AbstractContentListHandler<WalletJourn
 	@Override
 	protected JournalEntry getItem(Attributes attrs) {
 		JournalEntry item = new JournalEntry();
-		item.setDate(getDate(attrs, "date"));
+		item.setDate(getOffsetDateTime(attrs, "date"));
 		item.setRefID(getLong(attrs, "refID"));
 		item.setRefTypeID(getInt(attrs, "refTypeID"));
 		item.setOwnerName1(getString(attrs, "ownerName1"));
@@ -23,11 +23,11 @@ public class WalletJournalHandler extends AbstractContentListHandler<WalletJourn
 		item.setOwnerID2(getLong(attrs, "ownerID2"));
 		item.setArgName1(getString(attrs, "argName1"));
 		item.setArgID1(getLong(attrs, "argID1"));
-		item.setAmount(getDouble(attrs, "amount"));
-		item.setBalance(getDouble(attrs, "balance"));
+		item.setAmount(getBigDecimal(attrs, "amount"));
+		item.setBalance(getBigDecimal(attrs, "balance"));
 		item.setReason(getString(attrs, "reason"));
 		item.setTaxReceiverID(getLong(attrs, "taxReceiverID"));
-		item.setTaxAmount(getDouble(attrs, "taxAmount"));
+		item.setTaxAmount(getBigDecimal(attrs, "taxAmount"));
 		return item;
 	}
 }

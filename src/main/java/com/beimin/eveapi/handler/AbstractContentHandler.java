@@ -1,5 +1,11 @@
 package com.beimin.eveapi.handler;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -16,6 +22,13 @@ public abstract class AbstractContentHandler extends DefaultHandler {
 
 	protected StringBuffer accumulator = new StringBuffer(); // Accumulate parsed text
 	private ApiError error;
+	private DateTimeFormatter dtFormatter;
+	
+	public AbstractContentHandler() {
+		DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
+		builder.appendPattern("uuuu-MM-dd kk:mm:ss");
+		dtFormatter = builder.toFormatter();
+	}
 
 	@Override
 	public void characters(char[] buffer, int start, int length) {
@@ -37,9 +50,9 @@ public abstract class AbstractContentHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equals("currentTime"))
-			getResponse().setCurrentTime(getDate());
+			getResponse().setCurrentTime(getOffsetDateTime());
 		else if (qName.equals("cachedUntil"))
-			getResponse().setCachedUntil(getDate());
+			getResponse().setCachedUntil(getOffsetDateTime());
 		else if (qName.equals("error"))
 			error.setError(getString());
 	}
@@ -137,6 +150,36 @@ public abstract class AbstractContentHandler extends DefaultHandler {
 	protected boolean getBoolean(Attributes attrs, String qName) {
 		return "1".equals(getString(attrs, qName)) || "true".equalsIgnoreCase(getString(attrs, qName));
 	}
+	
+	protected BigDecimal getBigDecimal() {
+		String s = getString();
+		if (s.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		return new BigDecimal(s);
+	}
 
+	protected BigDecimal getBigDecimal(Attributes attrs, String qName) {
+		String s = getString(attrs, qName);
+		if (s.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		return new BigDecimal(getString(attrs, qName));
+	}
+	
+	protected OffsetDateTime getOffsetDateTime() {
+		String s = getString();
+		// evetime is utc through we don't get offset data
+		OffsetDateTime odt = OffsetDateTime.of(LocalDateTime.parse(s, dtFormatter), ZoneOffset.UTC); 
+		return odt;
+	}
+	
+	protected OffsetDateTime getOffsetDateTime(Attributes attrs, String qName) {
+		String s = getString(attrs, qName);
+		// evetime is utc through we don't get offset data
+		OffsetDateTime odt = OffsetDateTime.of(LocalDateTime.parse(s, dtFormatter), ZoneOffset.UTC); 
+		return odt;
+	}
+	
 	public abstract ApiResponse getResponse();
 }

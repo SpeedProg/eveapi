@@ -1,9 +1,10 @@
 package com.beimin.eveapi.model.shared;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 public class JournalEntry implements Comparable<JournalEntry> {
-	private Date date;
+	private OffsetDateTime date;
 	private long refID;
 	private int refTypeID;
 	private RefType refType;
@@ -13,17 +14,17 @@ public class JournalEntry implements Comparable<JournalEntry> {
 	private long ownerID2;
 	private String argName1;
 	private long argID1;
-	private double amount;
-	private double balance;
+	private BigDecimal amount;
+	private BigDecimal balance;
 	private String reason;
 	private Long taxReceiverID;
-	private Double taxAmount;
+	private BigDecimal taxAmount;
 
-	public Date getDate() {
+	public OffsetDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(OffsetDateTime date) {
 		this.date = date;
 	}
 
@@ -96,19 +97,19 @@ public class JournalEntry implements Comparable<JournalEntry> {
 		this.argID1 = argID1;
 	}
 
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
-	public double getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(double balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 
@@ -128,11 +129,11 @@ public class JournalEntry implements Comparable<JournalEntry> {
 		this.taxReceiverID = taxReceiverID;
 	}
 
-	public Double getTaxAmount() {
+	public BigDecimal getTaxAmount() {
 		return taxAmount;
 	}
 
-	public void setTaxAmount(Double taxAmount) {
+	public void setTaxAmount(BigDecimal taxAmount) {
 		this.taxAmount = taxAmount;
 	}
 
@@ -145,11 +146,11 @@ public class JournalEntry implements Comparable<JournalEntry> {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(amount);
+		temp = Double.doubleToLongBits(amount.doubleValue());
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + (int) (argID1 ^ (argID1 >>> 32));
 		result = prime * result + ((argName1 == null) ? 0 : argName1.hashCode());
-		temp = Double.doubleToLongBits(balance);
+		temp = Double.doubleToLongBits(balance.doubleValue());
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + (int) (ownerID1 ^ (ownerID1 >>> 32));
@@ -174,7 +175,7 @@ public class JournalEntry implements Comparable<JournalEntry> {
 		if (getClass() != obj.getClass())
 			return false;
 		JournalEntry other = (JournalEntry) obj;
-		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+		if (!amount.equals(other.amount))
 			return false;
 		if (argID1 != other.argID1)
 			return false;
@@ -183,7 +184,7 @@ public class JournalEntry implements Comparable<JournalEntry> {
 				return false;
 		} else if (!argName1.equals(other.argName1))
 			return false;
-		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
+		if (!balance.equals(other.balance))
 			return false;
 		if (date == null) {
 			if (other.date != null)

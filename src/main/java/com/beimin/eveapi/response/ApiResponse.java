@@ -1,13 +1,12 @@
 package com.beimin.eveapi.response;
 
-import java.util.Date;
-
+import java.time.OffsetDateTime;
 import com.beimin.eveapi.handler.ApiError;
 
 public class ApiResponse {
 	private int version;
-	private Date currentTime;
-	private Date cachedUntil;
+	private OffsetDateTime currentTime;
+	private OffsetDateTime cachedUntil;
 	private ApiError error;
 
 	public int getVersion() {
@@ -18,19 +17,19 @@ public class ApiResponse {
 		this.version = version;
 	}
 
-	public Date getCurrentTime() {
+	public OffsetDateTime getCurrentTime() {
 		return currentTime;
 	}
 
-	public void setCurrentTime(Date currentTime) {
+	public void setCurrentTime(OffsetDateTime currentTime) {
 		this.currentTime = currentTime;
 	}
 
-	public Date getCachedUntil() {
+	public OffsetDateTime getCachedUntil() {
 		return cachedUntil;
 	}
 
-	public void setCachedUntil(Date cachedUntil) {
+	public void setCachedUntil(OffsetDateTime cachedUntil) {
 		this.cachedUntil = cachedUntil;
 	}
 
