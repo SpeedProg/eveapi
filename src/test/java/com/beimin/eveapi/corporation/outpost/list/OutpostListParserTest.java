@@ -1,9 +1,11 @@
 package com.beimin.eveapi.corporation.outpost.list;
 
-import static com.beimin.eveapi.utils.Assert.assertDate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -23,11 +25,13 @@ public class OutpostListParserTest extends FullAuthParserTest {
 
 	@Test
 	public void getResponse() throws ApiException {
+		OffsetDateTime expectedCurrentDateTime = OffsetDateTime.of(2011, 4, 7, 19, 46, 15, 0, ZoneOffset.UTC);
+		OffsetDateTime expectedCachedDateTime = OffsetDateTime.of(2011, 4, 7, 20, 43, 12, 0, ZoneOffset.UTC);
 		OutpostListParser parser = new OutpostListParser();
 		OutpostListResponse response = parser.getResponse(auth);
 		assertNotNull("Should have returned a result.", response);
-		assertDate(2011, 4, 7, 19, 46, 15, response.getCurrentTime());
-		assertDate(2011, 4, 7, 20, 43, 12, response.getCachedUntil());
+		assertTrue(expectedCurrentDateTime.equals(response.getCurrentTime()));
+		assertTrue(expectedCachedDateTime.equals(response.getCachedUntil()));
 		Collection<Outpost> outposts = response.getAll();
 		assertNotNull("Should have returned a collection with outpos.", outposts);
 		assertEquals("Should have returned 3 outposs.", 3, outposts.size());

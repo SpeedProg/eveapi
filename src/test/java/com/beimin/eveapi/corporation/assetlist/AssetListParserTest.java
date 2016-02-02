@@ -1,10 +1,11 @@
 package com.beimin.eveapi.corporation.assetlist;
 
-import static com.beimin.eveapi.utils.Assert.assertDate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,11 +27,12 @@ public class AssetListParserTest extends FullAuthParserTest {
 
 	@Test
 	public void getResponse() throws ApiException {
+		OffsetDateTime expectedDateTime = OffsetDateTime.of(2008, 2, 3, 4, 43, 55, 0, ZoneOffset.UTC);
 		AbstractAssetListParser parser = new AssetListParser();
 		AssetListResponse response = parser.getResponse(auth);
 		assertNotNull("Should have returned a result.", response);
-		assertDate(2008, 2, 3, 4, 43, 55, response.getCurrentTime());
-		assertDate(2008, 2, 4, 3, 43, 55, response.getCachedUntil());
+		assertTrue(expectedDateTime.equals(response.getCurrentTime()));
+		assertTrue(expectedDateTime.equals(response.getCachedUntil()));
 		List<Asset> assets = response.getAll();
 		assertNotNull("Should have returned assets.", assets);
 		assertEquals("There should have been 4 assets.", 4, assets.size());
