@@ -1,9 +1,9 @@
 package com.beimin.eveapi.model.shared;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 public class WalletTransaction implements Comparable<WalletTransaction> {
-	private Date transactionDateTime;
+	private OffsetDateTime transactionDateTime;
 	private long transactionID;
 	private int quantity;
 	private String typeName;
@@ -18,11 +18,11 @@ public class WalletTransaction implements Comparable<WalletTransaction> {
 	private String transactionType;
 	private String transactionFor;
 
-	public Date getTransactionDateTime() {
+	public OffsetDateTime getTransactionDateTime() {
 		return transactionDateTime;
 	}
 
-	public void setTransactionDateTime(Date transactionDateTime) {
+	public void setTransactionDateTime(OffsetDateTime transactionDateTime) {
 		this.transactionDateTime = transactionDateTime;
 	}
 
