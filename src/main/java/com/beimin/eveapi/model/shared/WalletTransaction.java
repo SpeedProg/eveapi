@@ -17,6 +17,15 @@ public class WalletTransaction implements Comparable<WalletTransaction> {
 	private String stationName;
 	private String transactionType;
 	private String transactionFor;
+	private long journalTransactionId;
+	
+	public long getJournalTransactionId() {
+		return journalTransactionId;
+	}
+	
+	public void setJournalTransactionId(long journalTransactionId) {
+		this.journalTransactionId = journalTransactionId;
+	}
 
 	public OffsetDateTime getTransactionDateTime() {
 		return transactionDateTime;

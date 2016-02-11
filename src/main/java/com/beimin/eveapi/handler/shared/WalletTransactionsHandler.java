@@ -18,6 +18,7 @@ public class WalletTransactionsHandler extends
 		WalletTransaction item = new WalletTransaction();
 		item.setTransactionDateTime(getOffsetDateTime(attrs, "transactionDateTime"));
 		item.setTransactionID(getLong(attrs, "transactionID"));
+		item.setJournalTransactionId(getLong(attrs, "journalTransactionID"));
 		item.setQuantity(getInt(attrs, "quantity"));
 		item.setTypeName(getString(attrs, "typeName"));
 		item.setTypeID(getInt(attrs, "typeID"));
